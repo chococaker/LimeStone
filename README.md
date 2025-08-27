@@ -1,27 +1,51 @@
-# LimeStone RS Simulator
+# ⚡ LimeStone RS Simulator
 
-Our entry for the [2025 Codesprout Hackathon](https://codesprout.devpost.com/).
+Our submission for the [🌱 2025 Codesprout Hackathon](https://codesprout.devpost.com/)
 
 ![LimeStone banner](https://github.com/chococaker/LimeStone/blob/main/readme_assets/banner.png?raw=true)
 
-|💡 Note|
-|--|
-| There is some Python used in the project because we are **generating assets**, mainly to transform used assets to conform to different states. This is a one-time operation, and was left in the repository for reference. |
+---
 
-The LimeStone Simulator is a project built to give people the ability to test Redstone contraptions, and to provide a fun and not-overwhelming way to children to learn some electrical engineering.
+| 💡 Note                                                                                                                                                                                                                                                     |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Some Python code lives in the repo — not because LimeStone *needs* it to run, but because we used it to **generate assets** (e.g., transforming textures into their different states). Think of it as a behind-the-scenes tool chest left in for reference. |
 
-This is a Minecraft Redstone simulator build to be faithful to the original game as much as possible. Many hours were put into looking through the Wiki and playing the game, researching how _exactly_ Redstone works, down to a T. As long as it's 2D, anything from a couple lamps connected to a clock to a Redstone chess engine is possible, as long as you have the RAM and the technical skill.
+---
 
-## What's next
-We plan to add a "tutorial," explaining basic Minecraft Redstone concepts to those who wish to go into it a bit more.
+## 🎮 What is LimeStone?
 
-In terms of graphics, we want to add particles and animations to make the experience more interactive and realistic.
+LimeStone is a **Minecraft Redstone simulator**, built to let players experiment with contraptions outside of the game itself.
 
-We also want to be able to scale up and down the graph infinitely (currently, all you can do is set the "height" and "width" in `script.js`) using the scrollwheel. This will allow for much larger-scale projects to be created using this program.
+Whether you’re a tinkerer testing a complex Redstone clock or a kid learning the basics of circuits, LimeStone makes the process **accessible, faithful, and fun**.
 
-Additionally, while nearly all core Minecraft Redstone components have been implemented, just a couple haven't been added or completed as of yet. These are listed below:
-- **Honey Blocks**: While not important to every Redstone contraption prior to 1.19, these blocks are vital towards building highly advanced slimestone structures. We left these out because we believed them to be too far out of the scope of this project to be vital.
-- **Sticky Pistons**: We are on the final stages of adding these, but decided to leave them out so that people can become immersed with the accuracy of this model, instead of needing to face possible bugs.
-- **Comparators**: We are currently in the process of drafting code for these as well.
+We spent countless hours digging into the Minecraft Wiki and playtesting, ensuring our simulator behaves as close to *true* Minecraft Redstone as possible — quirks and all.
 
+If it works in vanilla Minecraft (in 2D), you can build it here. From a glowing Redstone lamp array to a full-on Redstone chess engine — the only limit is your **RAM** and your **imagination**.
 
+---
+
+## 🚀 What’s Next
+
+Here’s what we’re planning for the future of LimeStone:
+
+* 📘 **Interactive Tutorials**
+  A step-by-step guide to help beginners understand the fundamentals of Redstone, with hands-on lessons inside the simulator.
+
+* ✨ **Graphics & Polish**
+  Particle effects, smoother animations, and visual feedback to bring contraptions to life.
+
+* 🔍 **Infinite Zoom & Scaling**
+  No more manually setting `height` and `width` in `script.js` — you’ll be able to zoom in/out with the scroll wheel for massive builds.
+
+* 🧩 **More Components**
+  While most of the Redstone toolkit is here, we’re still finishing up a few key blocks:
+
+  * **Honey Blocks** 🧃 — essential for advanced SlimeStone machines (coming soon).
+  * **Sticky Pistons** 🟩 — almost done, just polishing off bug fixes.
+  * **Comparators** 🔴 — currently being drafted to round out the Redstone logic set.
+
+---
+
+## 🌟 Why We Built It
+
+We wanted to create something that feels approachable to kids learning about circuits, but powerful enough for Redstone veterans to push the limits. LimeStone is equal parts **educational tool** and **sandbox playground** — bridging Minecraft’s creativity with real-world engineering concepts.
