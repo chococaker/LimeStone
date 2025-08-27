@@ -713,7 +713,9 @@ class RedstoneDust extends Thing {
             if (!connection.isOn()) continue;
             if (connection.getBlockBase() === 'REDSTONE_DUST') {
                 inputStrength = connection.signalStrength - 1;
-            } else if (connection.isTransmittingHardPowerTo(this.x, this.y) || connection instanceof RedstoneBlock) {
+            } else if (connection.isTransmittingHardPowerTo(this.x, this.y)
+                || connection instanceof RedstoneBlock
+                || (connection instanceof RedstoneTorch && connection.isOn())) {
                 inputStrength = 15;
             }
 
