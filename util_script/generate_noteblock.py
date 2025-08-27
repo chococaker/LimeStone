@@ -6,11 +6,11 @@ from typing import Tuple
 
 BASE_IMAGE = "noteblock_base/noteblock_template.png"
 TEXT_X = 50
-TEXT_Y = 50
+TEXT_Y = 60
 TEXT_BOX_WIDTH = None
 FONT_PATH = "noteblock_base/font.ttf"
-FONT_SIZE = 60
-OUTPUT_DIR = "../noteblock"
+FONT_SIZE = 70
+OUTPUT_DIR = "../blocks/noteblock"
 TEXT_TEMPLATE = "{name}"
 USE_STROKE = False
 

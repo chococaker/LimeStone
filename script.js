@@ -19,7 +19,7 @@ const context = new (window.AudioContext || window.webkitAudioContext)();
 const noteBuffers = {};
 
 async function loadNote(note) {
-    const response = await fetch(`/note/${note}.wav`);
+    const response = await fetch(`note/${note}.wav`);
     const arrayBuffer = await response.arrayBuffer();
     const audioBuffer = await context.decodeAudioData(arrayBuffer);
     noteBuffers[note] = audioBuffer;
