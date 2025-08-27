@@ -2019,17 +2019,24 @@ function setBlock(block) {
     blockGrid[block.x][block.y].destroy();
     blockGrid[block.x][block.y] = block;
     update(block.x, block.y);
+    for (const direction of Object.values(DIRECTIONS)) { // im lazy. just update all the adjacent blocks
+        const loc = locationInDirection(block.x, block.y, direction);
+        if (outOfBounds(loc.x, loc.y)) continue;
+        update(loc.x, loc.y);
+    }
     block.resetImage();
+    emitObserverUpdate(block.x, block.y, false);
+
     for (let x = 0; x < width; x++) {
         for (let y = 0; y < height; y++) {
             if (x === block.x && y === block.y) continue;
+            if (areAdjacent(x, y, block.x, block.y)) continue; // already updated
             const possiblePiston = getBlock(x, y);
             if (possiblePiston instanceof Piston || possiblePiston instanceof StickyPiston) {
                 update(x, y);
             }
         }
     }
-    emitObserverUpdate(block.x, block.y, false);
 }
 
 function getBlock(x, y) {
