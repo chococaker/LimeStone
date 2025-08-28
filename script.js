@@ -1,4 +1,4 @@
-const REDSTONE_TICK_MS = 100;
+const REDSTONE_TICK_MS = 1000;
 
 const grid = document.getElementById('grid');
 const  blockSidebar = document.getElementById('blockSidebar');
@@ -385,6 +385,24 @@ function getOppositeDirection(direction) { // don't like doing this, but they mu
     }
 }
 
+function rotateLeftDirection(direction) {
+    switch (direction) {
+        case DIRECTIONS.LEFT: return DIRECTIONS.UP;
+        case DIRECTIONS.RIGHT: return DIRECTIONS.DOWN;
+        case DIRECTIONS.DOWN: return DIRECTIONS.LEFT;
+        case DIRECTIONS.UP: return DIRECTIONS.RIGHT;
+    }
+}
+
+function rotateRightDirection(direction) {
+    switch (direction) {
+        case DIRECTIONS.LEFT: return DIRECTIONS.DOWN;
+        case DIRECTIONS.RIGHT: return DIRECTIONS.UP;
+        case DIRECTIONS.DOWN: return DIRECTIONS.RIGHT;
+        case DIRECTIONS.UP: return DIRECTIONS.LEFT;
+    }
+}
+
 let selectedBlock = null;
 let ghostImg = null;
 
@@ -636,6 +654,18 @@ class Thing {
         return this.isOn() && this.transmitsHardPowerTo(x, y);
     }
 
+    getHardOutputLevelTo(x, y) {
+        return this.isTransmittingHardPowerTo(x, y) ? 15 : 0;
+    }
+
+    getSoftOutputLevelTo(x, y) {
+        return this.isTransmittingSoftPowerTo(x, y) ? 15 : 0;
+    }
+
+    getOutputLevelTo(x, y) {
+        return Math.max(this.getHardOutputLevelTo(x, y), this.getSoftOutputLevelTo(x, y));
+    }
+
     isOn() {
         return false;
     }
@@ -733,8 +763,8 @@ class RedstoneDust extends Thing {
         for (let connection of this.connections) {
             let inputStrength = 0;
             if (!connection.isOn()) continue;
-            if (connection.getBlockBase() === 'REDSTONE_DUST') {
-                inputStrength = connection.signalStrength - 1;
+                if (connection instanceof RedstoneDust || connection instanceof Comparator) {
+                inputStrength = connection.getHardOutputLevelTo(this.x, this.y);
             } else if (connection.isTransmittingHardPowerTo(this.x, this.y)
                 || connection instanceof RedstoneBlock
                 || (connection instanceof RedstoneTorch && connection.isOn())) {
@@ -824,7 +854,6 @@ class RedstoneDust extends Thing {
         }
 
         if (arraysEqualContents(currentConnections, this.connections)) {
-            this.connections = currentConnections;
             return false;
         }
 
@@ -855,6 +884,12 @@ class RedstoneDust extends Thing {
         } else {
             return false;
         }
+    }
+
+    getHardOutputLevelTo(x, y) {
+        if (!areAdjacent(x, y, this.x, this.y)) return 0;
+        if (!this.transmitsHardPowerTo(x, y)) return 0;
+        return this.signalStrength - 1;
     }
 
     attractsRedstone() {
@@ -968,17 +1003,46 @@ class Comparator extends Thing {
         super(x, y, BLOCK_TYPES.get('COMPARATOR_COMPARE_OFF'));
         this.lastSignalChangeTick = -1;
         this.facing = DIRECTIONS.UP;
-        this.on = false;
         this.queuedId = -1;
         this.mode = 'COMPARE';
+        this.signal = 0;
     }
 
     updateSelf() {
-        // TODO
+        const rearLoc = locationInDirection(this.x, this.y, getOppositeDirection(this.facing));
+        const rearSignal = outOfBounds(rearLoc.x, rearLoc.y) ? 0 : getBlock(rearLoc.x, rearLoc.y).getOutputLevelTo(this.x, this.y);
+
+        const sideLocs = [locationInDirection(this.x, this.y, rotateLeftDirection(this.facing)), locationInDirection(this.x, this.y, rotateRightDirection(this.facing))];
+        let sideSignal = 0;
+        for (const loc of sideLocs) {
+            if (outOfBounds(loc.x, loc.y)) continue;
+            const block = getBlock(loc.x, loc.y);
+            sideSignal = Math.max(sideSignal, block.getOutputLevelTo(this.x, this.y));
+        }
+
+        let newSignal;
+
+        if (this.mode === 'COMPARE') {
+            newSignal = (rearSignal >= sideSignal) ? rearSignal : 0;
+        } else {
+            newSignal = Math.max(0, rearSignal - sideSignal);
+        }
+        
+        if (this.signal !== newSignal) {
+            this.lastSignalChangeTick = ticks;
+            this.setBlockType(BLOCK_TYPES.get(`COMPARATOR_${this.mode}_${newSignal !== 0 ? 'ON' : 'OFF'}`));
+            const frontLoc = locationInDirection(this.x, this.y, this.facing);
+            this.queuedId = enqueueNextTick(() => {
+                this.signal = newSignal;
+                this.queuedId = -1;
+
+                if (!outOfBounds(frontLoc.x, frontLoc.y)) update(frontLoc.x, frontLoc.y);
+            });
+        }
     }
 
     isPowerableFrom(x, y) {
-        return getDirection(this.x, this.y, x, y) === getOppositeDirection(this.facing);
+        return getDirection(this.x, this.y, x, y) !== this.facing;
     }
 
     attractsRedstone(x, y) {
@@ -986,17 +1050,21 @@ class Comparator extends Thing {
     }
 
     isOn() {
-        return this.on;
+        return this.signal > 0;
     }
 
     transmitsHardPowerTo(x, y) {
         return getDirection(this.x, this.y, x, y) === this.facing;
     }
 
+    getHardOutputLevelTo(x, y) {
+        return this.transmitsHardPowerTo(x, y) ? this.signal : 0;
+    }
+
     getContextMenu() {
         let contextMap = new Map();
         contextMap.set('Direction', createDirectionalContextList(this.facing));
-        contextMap.set('Mode', (this.mode === 'COMPARE' ? 'Subtract' : 'Compare'));
+        contextMap.set('Mode', [this.mode === 'COMPARE' ? 'Subtract' : 'Compare']);
         return new ContextMenu(contextMap);
     }
 
@@ -1007,14 +1075,11 @@ class Comparator extends Thing {
 
         if (title === 'Direction') {
             this.facing = DIRECTIONS[selectedOption.toUpperCase()];
+            this.setBlockType(this.getBlockType(), this.#getFacingRotations())
             this.updateSelf();
-
-            for (const direction of Object.values(DIRECTIONS)) {
-                const loc = locationInDirection(this.x, this.y, direction);
-                if (!outOfBounds(loc.x, loc.y)) update(loc.x, loc.y);
-            }
         } else {
             this.mode = selectedOption.toUpperCase();
+            this.setBlockType(`COMPARATOR_${this.mode}_${this.signalStrength !== 0 ? 'ON' : 'OFF'}`);
             this.updateSelf();
         }
     }

@@ -44,8 +44,7 @@ Here’s what we’re planning for the future of LimeStone:
 
   * **Honey Blocks** 🧃 — essential for advanced SlimeStone machines (coming soon).
   * **Sticky Pistons** 🟩 — almost done, just polishing off bug fixes.
-  * **Comparators** 🔴 — currently being drafted to round out the Redstone logic set.
-
+  
 ---
 
 ## 🌟 Why We Built It
