@@ -1,4 +1,4 @@
-const REDSTONE_TICK_MS = 1000;
+const REDSTONE_TICK_MS = 100;
 
 const grid = document.getElementById('grid');
 const  blockSidebar = document.getElementById('blockSidebar');
