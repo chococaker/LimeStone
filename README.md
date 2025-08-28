@@ -8,7 +8,7 @@ Our submission for the [🌱 2025 Codesprout Hackathon](https://codesprout.devpo
 
 | 💡 Note                                                                                                                                                                                                                                                     |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Some Python code lives in the repo — not because LimeStone *needs* it to run, but because we used it to **generate assets** (e.g., transforming textures into their different states). Think of it as a behind-the-scenes tool chest left in for reference. |
+| Some Python code lives in the repo — not because LimeStone *needs* it to run, but because we used it to **generate assets** (e.g., transforming images of textures into different states). |
 
 ---
 
