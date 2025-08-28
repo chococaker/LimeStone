@@ -93,6 +93,7 @@ const BLOCK_BASES = new Map(); {
             construct: (x, y) => new RedstoneTorch(x, y)
         },
         { id: 'REPEATER', src: 'block_bases/repeater.png', name: 'Repeater', construct: (x, y) => new Repeater(x, y) },
+        { id: 'COMPARATOR', src: 'block_bases/comparator.png', name: 'Comparator', construct: (x, y) => new Comparator(x, y) },
         { id: 'PISTON', src: 'block_bases/piston.png', name: 'Piston', construct: (x, y) => new Piston(x, y) },
         // { id: 'STICKY_PISTON', src: 'block_bases/sticky_piston.png', name: 'Sticky Piston', construct: (x, y) => new StickyPiston(x, y)}, // UNDER CONSTRUCTION!!
         { id: 'SLIME_BLOCK', src: 'block_bases/slime_block.png', name: 'Slime Block', construct: (x, y) => new SlimeBlock(x, y)},
@@ -286,6 +287,27 @@ const BLOCK_TYPES = new Map(); {
             'src': `blocks/noteblock/${i}_${note_name}.png`
         });
     }
+
+    BLOCK_TYPES.set('COMPARATOR_COMPARE_OFF', {
+        'base': 'COMPARATOR',
+        'piston_touch': 'break',
+        'src': 'blocks/comparator/comparator_compare_off.png'
+    });
+    BLOCK_TYPES.set('COMPARATOR_COMPARE_ON', {
+        'base': 'COMPARATOR',
+        'piston_touch': 'break',
+        'src': 'blocks/comparator/comparator_compare_on.png'
+    });
+    BLOCK_TYPES.set('COMPARATOR_SUBTRACT_OFF', {
+        'base': 'COMPARATOR',
+        'piston_touch': 'break',
+        'src': 'blocks/comparator/comparator_subtract_off.png'
+    });
+    BLOCK_TYPES.set('COMPARATOR_SUBTRACT_ON', {
+        'base': 'COMPARATOR',
+        'piston_touch': 'break',
+        'src': 'blocks/comparator/comparator_subtract_on.png'
+    });
 
     BLOCK_TYPES.set('BLANK', {
         'base': 'BLANK',
@@ -922,6 +944,78 @@ class Repeater extends Thing {
             if (!outOfBounds(behindLoc.x, behindLoc.y)) update(behindLoc.x, behindLoc.y);
             const frontLoc = locationInDirection(this.x, this.y, this.facing);
             if (!outOfBounds(frontLoc.x, frontLoc.y)) update(frontLoc.x, frontLoc.y);
+        }
+    }
+
+    #getFacingRotations() {
+        switch (this.facing) {
+            case DIRECTIONS.UP:    return 0;
+            case DIRECTIONS.LEFT:  return 3;
+            case DIRECTIONS.DOWN:  return 2;
+            case DIRECTIONS.RIGHT: return 1;
+            default: throw Error('Invalid facing direction ', this.facing);
+        }
+    }
+
+    destroy() {
+        removeFromTickQueue(this.queuedId);
+        this.queuedId = -1; // shouldn't do anything, but it's nice to make sure
+    }
+}
+
+class Comparator extends Thing {
+    constructor(x, y) {
+        super(x, y, BLOCK_TYPES.get('COMPARATOR_COMPARE_OFF'));
+        this.lastSignalChangeTick = -1;
+        this.facing = DIRECTIONS.UP;
+        this.on = false;
+        this.queuedId = -1;
+        this.mode = 'COMPARE';
+    }
+
+    updateSelf() {
+        // TODO
+    }
+
+    isPowerableFrom(x, y) {
+        return getDirection(this.x, this.y, x, y) === getOppositeDirection(this.facing);
+    }
+
+    attractsRedstone(x, y) {
+        return getDirection(this.x, this.y, x, y).horizontal === this.facing.horizontal;
+    }
+
+    isOn() {
+        return this.on;
+    }
+
+    transmitsHardPowerTo(x, y) {
+        return getDirection(this.x, this.y, x, y) === this.facing;
+    }
+
+    getContextMenu() {
+        let contextMap = new Map();
+        contextMap.set('Direction', createDirectionalContextList(this.facing));
+        contextMap.set('Mode', (this.mode === 'COMPARE' ? 'Subtract' : 'Compare'));
+        return new ContextMenu(contextMap);
+    }
+
+    applyContext(title, selectedOption) {
+        this.lastSignalChangeTick = -10;
+        removeFromTickQueue(this.queuedId); // demolish bugs before they appear
+        this.queuedId = -1;
+
+        if (title === 'Direction') {
+            this.facing = DIRECTIONS[selectedOption.toUpperCase()];
+            this.updateSelf();
+
+            for (const direction of Object.values(DIRECTIONS)) {
+                const loc = locationInDirection(this.x, this.y, direction);
+                if (!outOfBounds(loc.x, loc.y)) update(loc.x, loc.y);
+            }
+        } else {
+            this.mode = selectedOption.toUpperCase();
+            this.updateSelf();
         }
     }
 
@@ -1607,7 +1701,6 @@ class Piston extends Thing {
     }
 }
 
-
 class StickyPiston extends Thing {
     constructor(x, y) {
         super(x, y, BLOCK_TYPES.get('STICKY_PISTON'), 0);
@@ -1776,7 +1869,6 @@ class StickyPiston extends Thing {
         }
     }
 }
-
 
 class SlimeBlock extends OpaqueThing {
     constructor(x, y) {
