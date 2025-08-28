@@ -1079,7 +1079,7 @@ class Comparator extends Thing {
             this.updateSelf();
         } else {
             this.mode = selectedOption.toUpperCase();
-            this.setBlockType(`COMPARATOR_${this.mode}_${this.signalStrength !== 0 ? 'ON' : 'OFF'}`);
+            this.setBlockType(BLOCK_TYPES.get(`COMPARATOR_${this.mode}_${this.signalStrength !== 0 ? 'ON' : 'OFF'}`));
             this.updateSelf();
         }
     }
