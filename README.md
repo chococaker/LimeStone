@@ -1,6 +1,8 @@
 # ⚡ LimeStone RS Simulator
 
-Our submission for the [🌱 2025 Codesprout Hackathon](https://codesprout.devpost.com/)
+Our submission for the [🌱 2025 Codesprout Hackathon](https://codesprout.devpost.com/).
+
+*Art by [@SublimedLime](https://github.com/SublimedLime)!*
 
 ![LimeStone banner](https://github.com/chococaker/LimeStone/blob/main/readme_assets/banner.png?raw=true)
 
