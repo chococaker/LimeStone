@@ -1046,7 +1046,7 @@ class Comparator extends Thing {
     }
 
     attractsRedstone(x, y) {
-        return getDirection(this.x, this.y, x, y).horizontal === this.facing.horizontal;
+        return areAdjacent(this.x, this.y, x, y);
     }
 
     isOn() {
