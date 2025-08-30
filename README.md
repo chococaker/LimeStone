@@ -10,7 +10,7 @@ Our submission for the [🌱 2025 Codesprout Hackathon](https://codesprout.devpo
 
 | 💡 Note                                                                                                                                                                                                                                                     |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Some Python code lives in the repo — not because LimeStone *needs* it to run, but because we used it to **generate assets** (e.g., transforming images of textures into different states). |
+| Some Python code lives in the repo because we used it to **generate assets** (e.g., transforming images of textures into different states). This is not against the rules, confirmed by a judge. |
 
 ---
 
@@ -22,7 +22,7 @@ Whether you’re a tinkerer testing a complex Redstone clock or a kid learning t
 
 We spent countless hours digging into the Minecraft Wiki and playtesting, ensuring our simulator behaves as close to *true* Minecraft Redstone as possible — quirks and all.
 
-If it works in vanilla Minecraft (in 2D), you can build it here. From a glowing Redstone lamp array to a full-on Redstone chess engine — the only limit is your **RAM** and your **imagination**.
+If it works in vanilla Minecraft (in 2D), you can build it here. From a glowing Redstone lamp array to a full-on Redstone chess engine. The only limit is **RAM** and your **imagination**.
 
 ---
 
@@ -37,7 +37,7 @@ Here’s what we’re planning for the future of LimeStone:
   Particle effects, smoother animations, and visual feedback to bring contraptions to life.
 
 * 🔍 **Infinite Zoom & Scaling**
-  No more manually setting `height` and `width` in `script.js` — you’ll be able to zoom in/out with the scroll wheel for massive builds.
+  No more manually setting `height` and `width` in `script.js`. You’ll be able to zoom in/out with the scroll wheel for massive builds.
 
 * 🧩 **More Components**
   While most of the Redstone toolkit is here, we’re still finishing up a few key blocks:
@@ -49,4 +49,8 @@ Here’s what we’re planning for the future of LimeStone:
 
 ## 🌟 Why We Built It
 
+<<<<<<< HEAD
 We wanted to create something that feels approachable to kids learning about circuits, but powerful enough for Redstone veterans to push the limits. LimeStone is equal parts educational tool and sandbox playground, bridging Minecraft’s creativity with real-world engineering concepts.
+=======
+We wanted to create something that feels approachable to kids learning about circuits, but powerful enough for Redstone veterans to push the limits. LimeStone is equal parts **educational tool** and **sandbox playground**, bridging Minecraft’s creativity with real-world engineering concepts.
+>>>>>>> a1c07972c7ca377ee5dbb65e6ba4c218e0b58146
