@@ -3,8 +3,8 @@ const REDSTONE_TICK_MS = 100;
 const grid = document.getElementById('grid');
 const  blockSidebar = document.getElementById('blockSidebar');
 
-let width = 11;
-let height = 7;
+let width = 17;
+let height = 11;
 
 const NOTE_NAMES = [
     "F♯3","G3","G♯3","A3","A♯3","B3",
