@@ -49,8 +49,4 @@ Here’s what we’re planning for the future of LimeStone:
 
 ## 🌟 Why We Built It
 
-<<<<<<< HEAD
-We wanted to create something that feels approachable to kids learning about circuits, but powerful enough for Redstone veterans to push the limits. LimeStone is equal parts educational tool and sandbox playground, bridging Minecraft’s creativity with real-world engineering concepts.
-=======
 We wanted to create something that feels approachable to kids learning about circuits, but powerful enough for Redstone veterans to push the limits. LimeStone is equal parts **educational tool** and **sandbox playground**, bridging Minecraft’s creativity with real-world engineering concepts.
->>>>>>> a1c07972c7ca377ee5dbb65e6ba4c218e0b58146
