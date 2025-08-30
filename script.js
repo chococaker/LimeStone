@@ -50,42 +50,12 @@ initNotes();
 
 const BLOCK_BASES = new Map(); {
     const blockBaseArr = [
-        { // kind of hacky since the BLANK block relies on this, but whatever
-            id: 'BLANK',
-            src: 'block_bases/blank.png',
-            name: 'Eraser',
-            construct: (x, y) => new Blank(x, y)
-        },
-        {
-            id: 'REDSTONE_DUST',
-            src: 'block_bases/redstone_dust.png',
-            name: 'Redstone Dust',
-            construct: (x, y) => new RedstoneDust(x, y)
-        },
-        {
-            id: 'COBBLESTONE',
-            src: 'block_bases/cobblestone.png',
-            name: 'Cobblestone',
-            construct: (x, y) => new Cobblestone(x, y)
-        },
-        {
-            id: 'OBSIDIAN',
-            src: 'block_bases/obsidian.png',
-            name: 'Obsidian',
-            construct: (x, y) => new Obsidian(x, y)
-        },
-        {
-            id: 'REDSTONE_TORCH',
-            src: 'block_bases/redstone_torch.png',
-            name: 'Redstone Torch',
-            construct: (x, y) => new RedstoneTorch(x, y)
-        },
-        {
-            id: 'TARGET',
-            src: 'block_bases/target.png',
-            name: 'Target Block',
-            construct: (x, y) => new Target(x, y)
-        },
+        { id: 'BLANK', src: 'block_bases/blank.png', name: 'Erase', construct: (x, y) => new Blank(x, y) },
+        { id: 'REDSTONE_DUST', src: 'block_bases/redstone_dust.png', name: 'Redstone Dust', construct: (x, y) => new RedstoneDust(x, y) },
+        { id: 'COBBLESTONE', src: 'block_bases/cobblestone.png', name: 'Cobblestone', construct: (x, y) => new Cobblestone(x, y) },
+        { id: 'OBSIDIAN', src: 'block_bases/obsidian.png', name: 'Obsidian', construct: (x, y) => new Obsidian(x, y) },
+        { id: 'REDSTONE_TORCH', src: 'block_bases/redstone_torch.png', name: 'Redstone Torch', construct: (x, y) => new RedstoneTorch(x, y) },
+        { id: 'TARGET', src: 'block_bases/target.png', name: 'Target Block', construct: (x, y) => new Target(x, y) },
         { id: 'REPEATER', src: 'block_bases/repeater.png', name: 'Repeater', construct: (x, y) => new Repeater(x, y) },
         { id: 'COMPARATOR', src: 'block_bases/comparator.png', name: 'Comparator', construct: (x, y) => new Comparator(x, y) },
         { id: 'PISTON', src: 'block_bases/piston.png', name: 'Piston', construct: (x, y) => new Piston(x, y) },
@@ -96,12 +66,7 @@ const BLOCK_BASES = new Map(); {
         { id: 'LEVER', src: 'block_bases/lever.png', name: 'Lever', construct: (x, y) => new Lever(x, y) },
         { id: 'REDSTONE_LAMP', src: 'block_bases/redstone_lamp.png', name: 'Redstone Lamp', construct: (x, y) => new RedstoneLamp(x, y) },
         { id: 'NOTE_BLOCK', src: 'block_bases/note_block.png', name: 'Note Block', construct: (x, y) => new NoteBlock(x, y) },
-        {
-            id: 'TNT',
-            src: 'block_bases/tnt.png',
-            name: 'TNT',
-            construct: (x, y) => new TNT(x, y)
-        },
+        { id: 'TNT', src: 'block_bases/tnt.png', name: 'TNT', construct: (x, y) => new TNT(x, y) },
     ];
 
     for (const blockBase of blockBaseArr) {
