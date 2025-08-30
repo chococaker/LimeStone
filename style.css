@@ -14,37 +14,56 @@ html, body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 200px;
+  width: 220px;
   height: 100%;
   background-color: #ddd;
   padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  color: block;
   overflow-y: auto;
   border-radius: 0 30px 30px 0;
 }
 
-.sidebar h2 {
-  font-size: 16px;
-  margin: 0 0 12px 0;
-  color: #000;
+#blockSidebar {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 10px;
 }
 
-#blockSidebar div {
-  padding: 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-bottom: 6px;
+.widget {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  padding: 10px;
+  background: #f4f4f4;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
 
-#blockSidebar div:hover {
-  background: #fff;
+.widget img {
+  width: 48px;
+  height: 48px;
+  image-rendering: pixelated;
+  margin-bottom: 6px;
 }
+
+.widget span {
+  font-size: 12px;
+  text-align: center;
+  color: #333;
+}
+
+.widget:hover {
+  background: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+}
+
+.widget:active {
+  transform: scale(0.95);
+}
+
 
 .main-content {
   margin-left: 200px;

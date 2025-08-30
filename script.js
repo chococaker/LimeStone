@@ -57,12 +57,6 @@ const BLOCK_BASES = new Map(); {
             construct: (x, y) => new Blank(x, y)
         },
         {
-            id: 'TNT',
-            src: 'block_bases/tnt.png',
-            name: 'TNT',
-            construct: (x, y) => new TNT(x, y)
-        },
-        {
             id: 'REDSTONE_DUST',
             src: 'block_bases/redstone_dust.png',
             name: 'Redstone Dust',
@@ -81,16 +75,16 @@ const BLOCK_BASES = new Map(); {
             construct: (x, y) => new Obsidian(x, y)
         },
         {
-            id: 'TARGET',
-            src: 'block_bases/target.png',
-            name: 'Target Block',
-            construct: (x, y) => new Target(x, y)
-        },
-        {
             id: 'REDSTONE_TORCH',
             src: 'block_bases/redstone_torch.png',
             name: 'Redstone Torch',
             construct: (x, y) => new RedstoneTorch(x, y)
+        },
+        {
+            id: 'TARGET',
+            src: 'block_bases/target.png',
+            name: 'Target Block',
+            construct: (x, y) => new Target(x, y)
         },
         { id: 'REPEATER', src: 'block_bases/repeater.png', name: 'Repeater', construct: (x, y) => new Repeater(x, y) },
         { id: 'COMPARATOR', src: 'block_bases/comparator.png', name: 'Comparator', construct: (x, y) => new Comparator(x, y) },
@@ -101,7 +95,13 @@ const BLOCK_BASES = new Map(); {
         { id: 'REDSTONE_BLOCK', src: 'block_bases/redstone_block.png', name: 'Block of Redstone', construct: (x, y) => new RedstoneBlock(x, y) },
         { id: 'LEVER', src: 'block_bases/lever.png', name: 'Lever', construct: (x, y) => new Lever(x, y) },
         { id: 'REDSTONE_LAMP', src: 'block_bases/redstone_lamp.png', name: 'Redstone Lamp', construct: (x, y) => new RedstoneLamp(x, y) },
-        { id: 'NOTE_BLOCK', src: 'block_bases/note_block.png', name: 'Note Block', construct: (x, y) => new NoteBlock(x, y) }
+        { id: 'NOTE_BLOCK', src: 'block_bases/note_block.png', name: 'Note Block', construct: (x, y) => new NoteBlock(x, y) },
+        {
+            id: 'TNT',
+            src: 'block_bases/tnt.png',
+            name: 'TNT',
+            construct: (x, y) => new TNT(x, y)
+        },
     ];
 
     for (const blockBase of blockBaseArr) {
@@ -409,22 +409,22 @@ let ghostImg = null;
 
 // add blocks to ui
 BLOCK_BASES.forEach((block, key) => {
-    const item = document.createElement('div');
+    const widget = document.createElement('div');
+    widget.classList.add('widget');
+    widget.dataset.block_base = key;
+
     const img = document.createElement('img');
-
-    item.dataset.block_base = key;
-
     img.src = block.src;
-    img.style.width = '16px';
-    img.style.height = '16px';
-    item.appendChild(img);
+    img.alt = block.name;
+    widget.appendChild(img);
 
     const label = document.createElement('span');
     label.textContent = block.name;
-    item.appendChild(label);
+    widget.appendChild(label);
 
-    item.addEventListener('click', () => {
+    widget.addEventListener('click', () => {
         selectedBlock = key;
+
         if (!ghostImg) {
             ghostImg = document.createElement('img');
             ghostImg.style.position = 'absolute';
@@ -434,12 +434,14 @@ BLOCK_BASES.forEach((block, key) => {
             ghostImg.style.zIndex = '99';
             document.body.appendChild(ghostImg);
         }
+
         ghostImg.src = block.src;
         ghostImg.style.display = 'block';
     });
 
-    blockSidebar.appendChild(item);
+    blockSidebar.appendChild(widget);
 });
+
 
 document.addEventListener('mousemove', e => {
     if (ghostImg && selectedBlock) {
