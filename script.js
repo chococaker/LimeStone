@@ -1816,10 +1816,21 @@ class StickyPiston extends Thing {
         }
 
         const frontLoc = locationInDirection(this.x, this.y, this.facing);
-
-        const blocksToPull = getPushList(frontLoc.x, frontLoc.y, this.facing);
-
         setBlockUI('BLANK', frontLoc.x, frontLoc.y);
+        let pushOrigin = locationInDirection(frontLoc.x, frontLoc.y, this.facing);
+        for (let i = 0; i < 11; i++) { // NOT WORKING: TRY COBBLESTONE PULL
+            pushOrigin = locationInDirection(pushOrigin.x, pushOrigin.y, this.facing);
+            if (outOfBounds(pushOrigin.x, pushOrigin.y)) break;
+            const pushBlock = getBlock(pushOrigin.x, pushOrigin.y);
+            if (pushBlock.getBlockType().base !== 'SLIME_BLOCK') {
+                if (pushBlock.getBlockType().piston_touch === 'move') {
+                    pushOrigin = locationInDirection(pushOrigin.x, pushOrigin.y, this.facing);
+                }
+                break;
+            }
+        }
+
+        const blocksToPull = getPushList(pushOrigin.x, pushOrigin.y, getOppositeDirection(this.facing));
         this.extended = false;
 
         const newLocations = new Set();
