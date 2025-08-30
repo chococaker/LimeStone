@@ -43,10 +43,10 @@ Here’s what we’re planning for the future of LimeStone:
   While most of the Redstone toolkit is here, we’re still finishing up a few key blocks:
 
   * **Honey Blocks** 🧃 — essential for advanced SlimeStone machines (coming soon).
-  * **Sticky Pistons** 🟩 — almost done, just polishing off bug fixes.
-  
+  * **Container Blocks** 📦 — Droppers, Dispensers, Chests, all useful blocks in highly complex tasks.
+
 ---
 
 ## 🌟 Why We Built It
 
-We wanted to create something that feels approachable to kids learning about circuits, but powerful enough for Redstone veterans to push the limits. LimeStone is equal parts **educational tool** and **sandbox playground** — bridging Minecraft’s creativity with real-world engineering concepts.
+We wanted to create something that feels approachable to kids learning about circuits, but powerful enough for Redstone veterans to push the limits. LimeStone is equal parts educational tool and sandbox playground, bridging Minecraft’s creativity with real-world engineering concepts.

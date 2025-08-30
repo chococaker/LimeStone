@@ -95,7 +95,7 @@ const BLOCK_BASES = new Map(); {
         { id: 'REPEATER', src: 'block_bases/repeater.png', name: 'Repeater', construct: (x, y) => new Repeater(x, y) },
         { id: 'COMPARATOR', src: 'block_bases/comparator.png', name: 'Comparator', construct: (x, y) => new Comparator(x, y) },
         { id: 'PISTON', src: 'block_bases/piston.png', name: 'Piston', construct: (x, y) => new Piston(x, y) },
-        // { id: 'STICKY_PISTON', src: 'block_bases/sticky_piston.png', name: 'Sticky Piston', construct: (x, y) => new StickyPiston(x, y)}, // UNDER CONSTRUCTION!!
+        { id: 'STICKY_PISTON', src: 'block_bases/sticky_piston.png', name: 'Sticky Piston', construct: (x, y) => new StickyPiston(x, y)}, // UNDER CONSTRUCTION!!
         { id: 'SLIME_BLOCK', src: 'block_bases/slime_block.png', name: 'Slime Block', construct: (x, y) => new SlimeBlock(x, y)},
         { id: 'OBSERVER', src: 'block_bases/observer.png', name: 'Observer', construct: (x, y) => new Observer(x, y) },
         { id: 'REDSTONE_BLOCK', src: 'block_bases/redstone_block.png', name: 'Block of Redstone', construct: (x, y) => new RedstoneBlock(x, y) },
@@ -1844,47 +1844,47 @@ class StickyPiston extends Thing {
 
     retract() {
         if (!this.extended) {
-            console.warn(`Tried to retract retracted sticky piston (${this.x}, ${this.y})`);
+            console.warn(`Tried to retract non-extended sticky piston (${this.x}, ${this.y})`);
             return false;
         }
 
-        const armLoc = locationInDirection(this.x, this.y, this.facing);
-        const pulledBlocks = [];
-        const visited = new Set();
+        const frontLoc = locationInDirection(this.x, this.y, this.facing);
 
-        setBlockUI('BLANK', armLoc.x, armLoc.y);
+        const blocksToPull = getPushList(frontLoc.x, frontLoc.y, this.facing);
 
-        const frontBlock = getBlock(armLoc.x, armLoc.y);
-        if (frontBlock.getBlockType().piston_touch === 'move') {
-            pulledBlocks.push(frontBlock);
-            visited.add(`${frontBlock.x},${frontBlock.y}`);
+        setBlockUI('BLANK', frontLoc.x, frontLoc.y);
+        this.extended = false;
 
-            if (frontBlock.getBlockBase() === 'SLIME_BLOCK') {
-                expandFromSlime(frontBlock.x, frontBlock.y, getOppositeDirection(this.facing), pulledBlocks, visited, this.x, this.y);
-            }
-        }
+        const newLocations = new Set();
 
-        if (pulledBlocks.length > 0) {
-            for (const block of pulledBlocks) {
-                const oldLoc = { x: block.x, y: block.y };
-                const newLoc = { x: armLoc.x, y: armLoc.y };
+        const oppositeDir = getOppositeDirection(this.facing);
+
+        if (blocksToPull !== undefined) {
+            for (const block of blocksToPull) {
+                const originalBlockLoc = { x: block.x, y: block.y };
+                const newLoc = locationInDirection(block.x, block.y, oppositeDir);
 
                 block.setSelfLoc(newLoc.x, newLoc.y);
                 setBlock(block);
                 emitObserverUpdate(newLoc.x, newLoc.y, true);
 
-                setBlockUI(oldLoc.x, oldLoc.y, 'BLANK');
+                newLocations.add(`${newLoc.x},${newLoc.y}`);
+
+                const origKey = `${originalBlockLoc.x},${originalBlockLoc.y}`;
+                if (
+                    origKey !== `${this.x},${this.y}` &&
+                    origKey !== `${frontLoc.x},${frontLoc.y}` &&
+                    !newLocations.has(origKey)
+                ) {
+                    setBlockUI('BLANK', originalBlockLoc.x, originalBlockLoc.y);
+                }
             }
         }
 
-        this.extended = false;
-        this.setBlockType(BLOCK_TYPES.get('STICKY_PISTON'));
+        this.setBlockType(BLOCK_TYPES.get('STICKY_PISTON'), this.#getRotation());
 
         return true;
     }
-
-
-
 
     isPowerableFrom(x, y) {
         return areAdjacent(this.x, this.y, x, y) && this.facing !== getDirection(this.x, this.y, x, y);
