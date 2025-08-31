@@ -908,7 +908,7 @@ class Repeater extends Thing {
     }
 
     attractsRedstone(x, y) {
-        return getDirection(this.x, this.y, x, y).horizontal === this.facing.horizontal;
+        return areAdjacent(this.x, this.y, x, y) && getDirection(this.x, this.y, x, y).horizontal === this.facing.horizontal;
     }
 
     isOn() {
@@ -916,7 +916,7 @@ class Repeater extends Thing {
     }
 
     transmitsHardPowerTo(x, y) {
-        return getDirection(this.x, this.y, x, y) === this.facing;
+        return areAdjacent(this.x, this.y, x, y) && getDirection(this.x, this.y, x, y) === this.facing;
     }
 
     getContextMenu() {
@@ -1021,7 +1021,7 @@ class Comparator extends Thing {
     }
 
     transmitsHardPowerTo(x, y) {
-        return getDirection(this.x, this.y, x, y) === this.facing;
+        return areAdjacent(this.x, this.y, x, y) && getDirection(this.x, this.y, x, y) === this.facing;
     }
 
     getHardOutputLevelTo(x, y) {
@@ -1538,7 +1538,7 @@ class Observer extends Thing {
     }
 
     transmitsHardPowerTo(x, y) {
-        return getDirection(x, y, this.x, this.y) === this.facing;
+        return areAdjacent(this.x, this.y, x, y) && getDirection(x, y, this.x, this.y) === this.facing;
     }
     
     attractsRedstone(x, y) {
