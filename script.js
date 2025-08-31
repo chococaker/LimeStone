@@ -1817,8 +1817,8 @@ class StickyPiston extends Thing {
 
         const frontLoc = locationInDirection(this.x, this.y, this.facing);
         setBlockUI('BLANK', frontLoc.x, frontLoc.y);
-        let pushOrigin = locationInDirection(frontLoc.x, frontLoc.y, this.facing);
-        for (let i = 0; i < 11; i++) { // NOT WORKING: TRY COBBLESTONE PULL
+        let pushOrigin = frontLoc;
+        for (let i = 0; i < 11; i++) {
             pushOrigin = locationInDirection(pushOrigin.x, pushOrigin.y, this.facing);
             if (outOfBounds(pushOrigin.x, pushOrigin.y)) break;
             const pushBlock = getBlock(pushOrigin.x, pushOrigin.y);
