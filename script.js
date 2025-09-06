@@ -1395,35 +1395,6 @@ class Obsidian extends OpaqueThing { // same as cobble except constructor
         super(x, y, BLOCK_TYPES.get('OBSIDIAN'), 0);
         this.powerType = POWER_TYPES.NONE;
     }
-
-    updateSelf() {
-        let currentPower = this.getGreatestAdjacentPower();
-        
-        if (currentPower !== this.powerType) {
-            this.powerType = currentPower;
-
-            for (const direction of Object.values(DIRECTIONS)) { // Soft Power
-                const loc = locationInDirection(this.x, this.y, direction);
-                if (!outOfBounds(loc.x, loc.y)) update(loc.x, loc.y);
-            }
-        }
-    }
-
-    isPowerableFrom(x, y) {
-        return areAdjacent(this.x, this.y, x, y);
-    }
-
-    transmitsSoftPowerTo(x, y) {
-        return this.powerType === POWER_TYPES.HARD && areAdjacent(this.x, this.y, x, y);
-    }
-
-    isOn() {
-        return this.powerType.activates;
-    }
-
-    isSolid() {
-        return true;
-    }
 }
 
 class Target extends Thing {
@@ -1432,37 +1403,8 @@ class Target extends Thing {
         this.powerType = POWER_TYPES.NONE;
     }
 
-    updateSelf() {
-        let currentPowered = this.getGreatestAdjacentPower();
-        
-        if (this.powerType !== currentPowered) {
-            this.powerType = currentPowered;
-
-            for (const direction of Object.values(DIRECTIONS)) { // Soft Power
-                const loc = locationInDirection(this.x, this.y, direction);
-                if (!outOfBounds(loc.x, loc.y)) update(loc.x, loc.y);
-            }
-        }
-    }
-
-    isPowerableFrom(x, y) {
-        return areAdjacent(this.x, this.y, x, y);
-    }
-
-    transmitsSoftPowerTo(x, y) {
-        return this.powerType === POWER_TYPES.HARD && areAdjacent(this.x, this.y, x, y);
-    }
-
-    isOn() {
-        return this.powerType.activates;
-    }
-
     attractsRedstone(x, y) {
-        return true;
-    }
-
-    isSolid() {
-        return true;
+        return areAdjacent(x, y, this.x, this.y);
     }
 }
 
