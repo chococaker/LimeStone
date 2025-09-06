@@ -1579,9 +1579,8 @@ class Piston extends Thing {
         const pistonArm = new PistonArm(locationInFront.x, locationInFront.y, this.facing, false);
         setBlock(pistonArm);
 
-        // Track all new destinations so we don’t blank something that was just filled
         const newLocations = new Set();
-        newLocations.add(`${locationInFront.x},${locationInFront.y}`); // piston arm spot
+        newLocations.add(`${locationInFront.x},${locationInFront.y}`);
 
         for (const block of blocksToPush) {
             const originalBlockLoc = { x: block.x, y: block.y };
@@ -1593,7 +1592,6 @@ class Piston extends Thing {
 
             newLocations.add(`${newLoc.x},${newLoc.y}`);
 
-            // Blank the old spot UNLESS it's the piston itself or the piston arm
             const origKey = `${originalBlockLoc.x},${originalBlockLoc.y}`;
             if (
                 origKey !== `${this.x},${this.y}` && // don’t erase piston
@@ -1891,7 +1889,7 @@ class PistonArm extends Thing {
     destroy() {
         const behindLoc = locationInDirection(this.x, this.y, getOppositeDirection(this.facing));
         const behindBlock = getBlock(behindLoc.x, behindLoc.y);
-        if (!this.destroyed && behindBlock.getBlockBase() === 'PISTON' && behindBlock.extended) {
+        if (!this.destroyed && (behindBlock.getBlockBase() === 'PISTON' || behindBlock.getBlockBase() === 'STICKY_PISTON') && behindBlock.extended) {
             this.destroyed = true; // hacky but whatever
             setBlockUI('BLANK', behindLoc.x, behindLoc.y);
         }
