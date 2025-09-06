@@ -794,7 +794,7 @@ class RedstoneDust extends Thing {
                     this.setBlockType(BLOCK_TYPES.get(`REDSTONEDUST_3WAY_SIGNAL${this.signalStrength}`), rotations);
                 break;
                 case 4:
-                    this.setBlockType(BLOCK_TYPES.get(`REDSTONEDUST_4WAY_SIGNAL${this.signalStrength}`)), 0;
+                    this.setBlockType(BLOCK_TYPES.get(`REDSTONEDUST_4WAY_SIGNAL${this.signalStrength}`), 0);
                     break;
                 default:
                     throw Error(`Counted more connections than possible ${this.connections.length}`)
