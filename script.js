@@ -879,7 +879,7 @@ class Repeater extends Thing {
     }
 
     updateSelf() {
-        // if (ticks - this.lastSignalChangeTick <= this.delay) return; // no point in caring if the repeater can't do anything
+        if (this.queuedId !== -1) return; // no point in caring if the repeater can't do anything
 
         const behindDir = getOppositeDirection(this.facing);
         const behindLoc = locationInDirection(this.x, this.y, behindDir);
@@ -899,6 +899,7 @@ class Repeater extends Thing {
                 this.queuedId = -1;
 
                 if (!outOfBounds(frontLoc.x, frontLoc.y)) update(frontLoc.x, frontLoc.y);
+                update(this.x, this.y);
             }, this.delay);
         }
     }
