@@ -1398,7 +1398,7 @@ class Obsidian extends OpaqueThing { // same as cobble except constructor
     }
 }
 
-class Target extends Thing {
+class Target extends OpaqueThing {
     constructor(x, y) {
         super(x, y, BLOCK_TYPES.get('TARGET'), 0);
         this.powerType = POWER_TYPES.NONE;
