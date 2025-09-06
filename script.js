@@ -1756,6 +1756,7 @@ class StickyPiston extends Thing {
             return false;
         }
 
+        this.extended = false;
         const frontLoc = locationInDirection(this.x, this.y, this.facing);
         setBlockUI('BLANK', frontLoc.x, frontLoc.y);
         let pushOrigin = frontLoc;
@@ -1772,7 +1773,6 @@ class StickyPiston extends Thing {
         }
 
         const blocksToPull = getPushList(pushOrigin.x, pushOrigin.y, getOppositeDirection(this.facing));
-        this.extended = false;
 
         const newLocations = new Set();
 
