@@ -52,10 +52,9 @@ const BLOCK_BASES = new Map(); {
     const blockBaseArr = [
         { id: 'BLANK', src: 'block_bases/blank.png', name: 'Erase', construct: (x, y) => new Blank(x, y) },
         { id: 'REDSTONE_DUST', src: 'block_bases/redstone_dust.png', name: 'Redstone Dust', construct: (x, y) => new RedstoneDust(x, y) },
+        { id: 'REDSTONE_TORCH', src: 'block_bases/redstone_torch.png', name: 'Redstone Torch', construct: (x, y) => new RedstoneTorch(x, y) },
         { id: 'COBBLESTONE', src: 'block_bases/cobblestone.png', name: 'Cobblestone', construct: (x, y) => new Cobblestone(x, y) },
         { id: 'OBSIDIAN', src: 'block_bases/obsidian.png', name: 'Obsidian', construct: (x, y) => new Obsidian(x, y) },
-        { id: 'REDSTONE_TORCH', src: 'block_bases/redstone_torch.png', name: 'Redstone Torch', construct: (x, y) => new RedstoneTorch(x, y) },
-        { id: 'LEVER', src: 'block_bases/lever.png', name: 'Lever', construct: (x, y) => new Lever(x, y) },
         { id: 'REPEATER', src: 'block_bases/repeater.png', name: 'Repeater', construct: (x, y) => new Repeater(x, y) },
         { id: 'COMPARATOR', src: 'block_bases/comparator.png', name: 'Comparator', construct: (x, y) => new Comparator(x, y) },
         { id: 'PISTON', src: 'block_bases/piston.png', name: 'Piston', construct: (x, y) => new Piston(x, y) },
@@ -63,6 +62,7 @@ const BLOCK_BASES = new Map(); {
         { id: 'SLIME_BLOCK', src: 'block_bases/slime_block.png', name: 'Slime Block', construct: (x, y) => new SlimeBlock(x, y)},
         { id: 'OBSERVER', src: 'block_bases/observer.png', name: 'Observer', construct: (x, y) => new Observer(x, y) },
         { id: 'REDSTONE_BLOCK', src: 'block_bases/redstone_block.png', name: 'Block of Redstone', construct: (x, y) => new RedstoneBlock(x, y) },
+        { id: 'LEVER', src: 'block_bases/lever.png', name: 'Lever', construct: (x, y) => new Lever(x, y) },
         { id: 'TARGET', src: 'block_bases/target.png', name: 'Target Block', construct: (x, y) => new Target(x, y) },
         { id: 'REDSTONE_LAMP', src: 'block_bases/redstone_lamp.png', name: 'Redstone Lamp', construct: (x, y) => new RedstoneLamp(x, y) },
         { id: 'NOTE_BLOCK', src: 'block_bases/note_block.png', name: 'Note Block', construct: (x, y) => new NoteBlock(x, y) },
@@ -371,6 +371,14 @@ function rotateRightDirection(direction) {
 let selectedBlock = null;
 let ghostImg = null;
 
+// add cursor to ui
+document.getElementById('cursorWidget').addEventListener('click', () => {
+    if (ghostImg) {
+        ghostImg.style.display = 'none';
+        ghostImg.src = '';
+    }
+    selectedBlock = null;
+});
 
 // add blocks to ui
 BLOCK_BASES.forEach((block, key) => {
@@ -409,7 +417,7 @@ BLOCK_BASES.forEach((block, key) => {
 
 
 document.addEventListener('mousemove', e => {
-    if (ghostImg && selectedBlock) {
+    if (ghostImg) {
         ghostImg.style.left = e.pageX - 32 + 'px';
         ghostImg.style.top = e.pageY - 32 + 'px';
     }
