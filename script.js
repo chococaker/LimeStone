@@ -404,7 +404,7 @@ BLOCK_BASES.forEach((block, key) => {
             ghostImg.style.pointerEvents = 'none';
             ghostImg.style.width = '64px';
             ghostImg.style.height = '64px';
-            ghostImg.style.zIndex = '99';
+            ghostImg.style.zIndex = '1000';
             document.body.appendChild(ghostImg);
         }
 
