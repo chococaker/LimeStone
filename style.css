@@ -20,6 +20,7 @@ html, body {
   padding: 12px;
   overflow-y: auto;
   border-radius: 0 30px 30px 0;
+  z-index: 999;
 }
 
 #blockSidebar {
